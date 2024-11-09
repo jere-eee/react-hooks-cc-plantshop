@@ -7,7 +7,7 @@ Use the command 'git clone {URL}' to download the files to your local.
 
 On terminal: 
 ```
-git clone 
+git clone https://github.com/jere-eee/react-hooks-cc-plantshop
 ```
 
 Installation requirements include(not limited to): 
