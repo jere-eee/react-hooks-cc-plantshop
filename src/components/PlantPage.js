@@ -1,14 +1,71 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NewPlantForm from "./NewPlantForm";
 import PlantList from "./PlantList";
 import Search from "./Search";
 
 function PlantPage() {
+  // Initial plants state
+  const [plants, setPlants] = useState([])
+
+  // States for adding new plant
+  const [name, setName] = useState("")
+  const [img, setImg] = useState("")
+  const [price, setPrice] = useState("")
+
+  // State for search
+  const [searchTerm, setSearchTerm] = useState("")
+
+  // Fetch and render plants on load
+  useEffect(() => {
+    fetch("http://127.0.0.1:6001/plants")
+      .then(r => r.json())
+      .then(data => setPlants(data))
+  }, [])
+
+  // POST new plant and add to state
+  function handleAdd(e) {
+    e.preventDefault();
+    const newPlant = {
+      name,
+      image: img,
+      price
+    }
+    fetch("http://127.0.0.1:6001/plants", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(newPlant)
+    })
+      .then(r => r.json())
+      .then(res => setPlants([...plants, res]))
+      .catch(err => console.log(err))
+  }
+
+  // Handle deleting, update state
+  function handleDel(plant) {
+    const newPlants = plants.filter(plt => plt.id !== plant.id)
+    setPlants(newPlants)
+  }
+
+  // Filter based on search term
+  const renderedPlants = plants.filter((plant) => {
+    if (searchTerm === "") {
+      return plant
+    } else if (plant.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+      return plant
+    }
+  })
+
   return (
     <main>
-      <NewPlantForm />
-      <Search />
-      <PlantList />
+      <NewPlantForm onAdd={handleAdd}
+        onName={(e) => setName(e.target.value)}
+        onImg={(e) => setImg(e.target.value)}
+        onPrice={(e) => setPrice(e.target.value)}
+      />
+      <Search onSearch={(e) => setSearchTerm(e.target.value)} />
+      <PlantList plants={renderedPlants} onDel={handleDel}/>
     </main>
   );
 }
