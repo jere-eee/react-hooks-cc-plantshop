@@ -20,6 +20,8 @@ function PlantPage() {
     fetch("http://127.0.0.1:6001/plants")
       .then(r => r.json())
       .then(data => setPlants(data))
+      .catch(err => console.log(err))
+      .then(() => alert("Failed to fetch plants, run server."))
   }, [])
 
   // POST new plant and add to state
