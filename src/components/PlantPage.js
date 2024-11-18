@@ -17,7 +17,7 @@ function PlantPage() {
 
   // Fetch and render plants on load
   useEffect(() => {
-    fetch("http://127.0.0.1:6001/plants")
+    fetch("http://localhost:6001/plants")
       .then(r => r.json())
       .then(data => setPlants(data))
       .catch(err => console.log(err))
@@ -32,10 +32,10 @@ function PlantPage() {
       image: img,
       price
     }
-    fetch("http://127.0.0.1:6001/plants", {
+    fetch("http://localhost:6001/plants", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "Application/JSON"
       },
       body: JSON.stringify(newPlant)
     })

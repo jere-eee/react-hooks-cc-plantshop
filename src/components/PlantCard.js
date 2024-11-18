@@ -3,7 +3,7 @@ import React, { useState } from "react";
 function PlantCard({ plant, onDel }) {
   // State toggler for in/out of stock
   const [stock, setStock] = useState(true)
-  
+
   // State toggler for pricing and price state storer
   const [pricer, setPricer] = useState(false)
   const [currPrice, setCurrPrice] = useState(plant.price)
@@ -21,7 +21,7 @@ function PlantCard({ plant, onDel }) {
           onBlur={() => setPricer(false)}
           onChange={(e) => {
             setCurrPrice(e.target.value)
-            fetch(`http://127.0.0.1:6001/plants/${plant.id}`, {
+            fetch(`http://localhost:6001/plants/${plant.id}`, {
               method: "PATCH",
               headers: {
                 "Content-Type": "application/json"
@@ -36,12 +36,15 @@ function PlantCard({ plant, onDel }) {
           }}>
 
         </input></label>
-      ) : <p>Price: {currPrice}
+      ) : <>
+        <p>Price: {currPrice}
+        </p>
         <button className="primary" style={{
           padding: "6px",
           marginLeft: "6px"
         }} onClick={() => setPricer(true)}>Edit</button>
-      </p>}
+      </>
+      }
 
       {stock ? (
         <button className="primary" onClick={() => setStock(false)}>In Stock</button>
@@ -56,13 +59,13 @@ function PlantCard({ plant, onDel }) {
         marginLeft: "6px",
         backgroundColor: "red"
       }} onClick={() => {
-        fetch(`http://127.0.0.1:6001/plants/${plant.id}`, {
+        fetch(`http://localhost:6001/plants/${plant.id}`, {
           method: "DELETE",
         })
-        .then(r => r.json())
-        .then(plt => onDel(plant))
-        .then(() => alert("Plant Deleted!"))
-        .catch(err => console.log(err))
+          .then(r => r.json())
+          .then(plt => onDel(plant))
+          .then(() => alert("Plant Deleted!"))
+          .catch(err => console.log(err))
       }}>Delete</button>
     </li>
   );
