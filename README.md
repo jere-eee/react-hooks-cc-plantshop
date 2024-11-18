@@ -21,7 +21,7 @@ Then:
 3. In a new terminal, run `npm start`.
 
 ## Deployment
-Deployed on Netlify: 
+Deployed on Netlify: [link](https://jere-eeeplantshop.netlify.app/)
 
 ## Features
 
